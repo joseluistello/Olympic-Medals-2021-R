@@ -1,0 +1,91 @@
+---
+title: "Olympic Games Analysis"
+author: "José Luis Tello"
+date: "8/8/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(tidyverse)
+install.packages("scales")
+```
+
+
+```{r}
+medals <- read.csv("tokyo2021.csv", header = TRUE)
+```
+
+MMMM... I need to change this col names!
+
+```{r}
+str(medals)
+```
+
+## Data Wrangling
+
+1. Create a frame with new column names
+
+```{r}
+tokyo2021 <- rename(medals, 
+       country = Team.NOC,
+       gold = Gold.Medal,
+       silver = Silver.Medal,
+       bronze = Bronze.Medal,
+       rankbytotal = Rank.by.Total,
+       ccode = NOCCode
+              )
+```
+
+
+```{r}
+tokyo <- as_tibble(tokyo2021)
+```
+
+
+## Data Viz!
+
+```{r}
+tokyo %>% 
+  group_by(country) %>% 
+  count(gold) %>% 
+  filter(gold >= 10) %>% 
+  ggplot(aes(x = gold, y = country)) +
+  geom_bar(stat = 'identity', 
+           size=1, 
+           fill="coral3",) +
+  geom_text(aes(label = gold),
+            vjust = .50, nudge_y = .15, nudge_x = 1) +
+  labs(x = "Gold Medals",
+       y = "Country",
+       title = "Countries with the most gold medals") +
+  theme_classic()
+
+```
+
+
+```{r}
+tokyo %>% 
+  group_by(country) %>% 
+  count(bronze, sort = TRUE) %>% 
+  arrange(desc(bronze)) %>% 
+  ggplot(aes(bronze)) +
+  geom_histogram() +
+  scale_x_reverse()
+```
+
+```{r}
+tokyo %>% 
+  select(country, Total) %>% 
+  filter(Total >= 25) %>% 
+  arrange(country) %>% 
+  ggplot(aes(country, Total)) +
+  geom_bar(stat = 'identity')
+```
+
+
+```
+
