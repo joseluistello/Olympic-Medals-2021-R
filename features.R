@@ -12,3 +12,8 @@ tokyo2021 <- rename(medals,
 ### Convert frame to tibble
 
 tokyo <- as_tibble(tokyo2021)
+
+
+#### Write new data
+
+write.csv(tokyo, "./data/interim/data.cvs", row.names = FALSE )

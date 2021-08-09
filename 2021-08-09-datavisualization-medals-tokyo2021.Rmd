@@ -1,13 +1,14 @@
 ---
-title: "Olympic Games Analysis"
+title: "Olympic Games MD"
 author: "José Luis Tello"
-date: "8/8/2021"
-output: html_document
+date: "9/8/2021"
+output: md_document
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
+
 
 ```{r}
 library(tidyverse)
@@ -16,7 +17,7 @@ library(scales)
 
 
 ```{r}
-medals <- read.csv("tokyo2021.csv", header = TRUE)
+medals <- read.csv("data/raw/tokyo2021.csv", header = TRUE)
 ```
 
 MMMM... I need to change this col names!
@@ -48,7 +49,6 @@ tokyo <- as_tibble(tokyo2021)
 ```{r}
 write.csv(tokyo, "./data/interim/data.cvs", row.names = FALSE )
 ```
-
 
 
 ## Data Viz!
@@ -135,7 +135,7 @@ tokyo %>%
 
 ```{r}
 ggplot(tokyo, aes(x = Total,
-                  y= ..count.. / sum(..count..))) +i
+                  y= ..count.. / sum(..count..))) +
   geom_histogram(fill = "cornflowerblue",
                  color = "black",
                  binwidth = 9) +
